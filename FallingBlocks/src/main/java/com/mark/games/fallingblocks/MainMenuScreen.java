@@ -30,7 +30,6 @@ public class MainMenuScreen extends Screen {
 	Rectangle settingsButtonRect;
 	Rectangle startButtonRect;
 	Rectangle highscoreButtonRect;
-	Rectangle tutorialButtonRect;
 
 	SpriteBatcher batcher;
 
@@ -58,9 +57,6 @@ public class MainMenuScreen extends Screen {
 		// Settings button
 		buttonList.add(new Rectangle(0, 130, 290, 50));
 		settingsButtonRect = buttonList.get(2);
-		// TEMP //Tutorial button
-		buttonList.add(new Rectangle(0, 55, 290, 50));
-		tutorialButtonRect = buttonList.get(3);
 	}
 
 	@Override
@@ -111,10 +107,6 @@ public class MainMenuScreen extends Screen {
 				if (OverlapTester.pointInRectangle(highscoreButtonRect,
 						touchPoint)) {
 					game.setScreen(new HighscoreScreen(game));
-				}
-				if (OverlapTester.pointInRectangle(tutorialButtonRect,
-						touchPoint)) {
-					game.setScreen(new TutorialScreen(game));
 				}
 			}
 			buttonPressed = false;
