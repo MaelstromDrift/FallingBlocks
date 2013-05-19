@@ -19,9 +19,7 @@ import com.mark.games.fallingblocks.framework.math.Vector2;
 
 public class MainMenuScreen extends Screen {
 
-	Graphics graphics;
 	GLGraphics glGraphics;
-
 	Camera2D camera;
 	Vector2 touchPoint;
 	ArrayList<Rectangle> buttonList;
