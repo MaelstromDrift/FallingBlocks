@@ -82,11 +82,12 @@ public class MainMenuScreen extends Screen {
 	}
 
 	public void getTouchEvents(TouchEvent event, Vector2 touchPoint) {
+
 		if (event.type == TouchEvent.TOUCH_DOWN || event.type == TouchEvent.TOUCH_DRAGGED) {
 			for (int i = 0; i < buttonList.size(); i++) {
 				if (OverlapTester.pointInRectangle(buttonList.get(i),
 						touchPoint)) {
-					buttonPressed = true;
+                    buttonPressed = true;
 					buttonX = buttonList.get(i).lowerLeft.x
 							+ buttonList.get(i).width / 2;
 					buttonY = buttonList.get(i).lowerLeft.y
@@ -99,7 +100,7 @@ public class MainMenuScreen extends Screen {
 		}
 		if (event.type == TouchEvent.TOUCH_UP) {
 
-			if (buttonPressed == true) {
+			if (buttonPressed) {
 				if (OverlapTester.pointInRectangle(startButtonRect, touchPoint)) {
 					game.setScreen(new ModeSelectScreen(game));
 				}
