@@ -12,8 +12,6 @@ import com.mark.games.fallingblocks.framework.Screen;
 import com.mark.games.fallingblocks.framework.collision.OverlapTester;
 import com.mark.games.fallingblocks.framework.gl.Camera2D;
 import com.mark.games.fallingblocks.framework.gl.SpriteBatcher;
-import com.mark.games.fallingblocks.framework.gl.Texture;
-import com.mark.games.fallingblocks.framework.gl.Vertices;
 import com.mark.games.fallingblocks.framework.impl.GLGame;
 import com.mark.games.fallingblocks.framework.impl.GLGraphics;
 import com.mark.games.fallingblocks.framework.math.Rectangle;
@@ -24,10 +22,6 @@ public class MainMenuScreen extends Screen {
 	Graphics graphics;
 	GLGraphics glGraphics;
 
-	Vertices gradBox;
-	Texture gradBoxTex;
-	Vertices gradBox2;
-	Texture gradBoxTex2;
 	Camera2D camera;
 	Vector2 touchPoint;
 	ArrayList<Rectangle> buttonList;
@@ -46,7 +40,6 @@ public class MainMenuScreen extends Screen {
 
 	final float FRUSTUM_WIDTH = 320.0f;
 	final float FRUSTUM_HEIGHT = 480.0f;
-	Assets ass = new Assets();
 
 	public MainMenuScreen(Game game) {
 		super(game);
@@ -83,14 +76,13 @@ public class MainMenuScreen extends Screen {
 				touchPoint.set(event.x, event.y);
 				camera.touchToWorld(touchPoint);
 				getTouchEvents(event, touchPoint);
-
 			}
 		} catch (IndexOutOfBoundsException e) {
 		}
 	}
 
 	public void getTouchEvents(TouchEvent event, Vector2 touchPoint) {
-		if (event.type == TouchEvent.TOUCH_DOWN) {
+		if (event.type == TouchEvent.TOUCH_DOWN || event.type == TouchEvent.TOUCH_DRAGGED) {
 			for (int i = 0; i < buttonList.size(); i++) {
 				if (OverlapTester.pointInRectangle(buttonList.get(i),
 						touchPoint)) {
@@ -109,7 +101,7 @@ public class MainMenuScreen extends Screen {
 
 			if (buttonPressed == true) {
 				if (OverlapTester.pointInRectangle(startButtonRect, touchPoint)) {
-					game.setScreen(new GameScreen(game));
+					game.setScreen(new ModeSelectScreen(game));
 				}
 				if (OverlapTester.pointInRectangle(settingsButtonRect,
 						touchPoint)) {
