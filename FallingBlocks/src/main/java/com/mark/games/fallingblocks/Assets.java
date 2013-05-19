@@ -35,7 +35,10 @@ public class Assets {
 	public static TextureRegion mainBack;
 	public static TextureRegion menuFalling;
 	public static TextureRegion menuBlocks;
-	
+
+    public static Texture selectScreen;
+    public static TextureRegion selectScreenBack;
+
 	public static Texture settings;
 	public static TextureRegion settingsBack;
 	
@@ -70,6 +73,9 @@ public class Assets {
 		mainBack = new TextureRegion(menu, 0, 0, 640, 960);
 		menuBlocks = new TextureRegion(menu, 640, 660, 200, 100);
 		menuFalling= new TextureRegion(menu, 640, 760, 200, 99);
+
+        selectScreen = new Texture(game,"Play_Screen.png");
+        selectScreenBack = new TextureRegion(selectScreen, 0, 0, 640, 960);
 
 
 		icons = new Texture(game, "pauseButton.png");
