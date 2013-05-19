@@ -30,7 +30,10 @@ public class Assets {
 	
 	public static Texture tutorial;
 	public static TextureRegion tutBackground;
-	
+
+    public static Texture lossScreen;
+    public static TextureRegion lossBack;
+
 	public static Texture menu;
 	public static TextureRegion mainBack;
 	public static TextureRegion menuFalling;
@@ -56,7 +59,10 @@ public class Assets {
 		backgroundSong.setLooping(true);
 		if (backgroundSong.isPrepared())
 			backgroundSong.play();
-		
+
+        lossScreen = new Texture(game, "LossScreen.png");
+        lossBack = new TextureRegion(lossScreen, 0, 0, 640, 960);
+
 		highscoreScreen = new Texture(game, "HighScoreScreen.png");
 		highscoreBack = new TextureRegion(highscoreScreen, 0, 0, 640, 960);
 		
