@@ -25,10 +25,9 @@ public class Settings {
             SettingsScreen.showFps = Boolean.parseBoolean(in.readLine());
             showFps = SettingsScreen.showFps;
 
-            SettingsScreen.playMusic = Boolean.parseBoolean(in.readLine());
-            playMusic = SettingsScreen.playMusic;
+            playMusic = Boolean.parseBoolean(in.readLine());
 
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
                 scoresArray[i] = Integer.parseInt(in.readLine());
 
             in.close();
@@ -36,7 +35,7 @@ public class Settings {
         } catch (NumberFormatException e) {
         } finally {
             try {
-                if (in != null){
+                if (in != null) {
                     in.close();
                 }
             } catch (IOException e) {
@@ -51,7 +50,7 @@ public class Settings {
                     files.writeFile(".falling")));
             out.write(Boolean.toString(SettingsScreen.showFps));
             out.newLine();
-            out.write(Boolean.toString(SettingsScreen.playMusic));
+            out.write(Boolean.toString(playMusic));
             out.newLine();
 
             for (int i = 0; i < 5; i++) {
