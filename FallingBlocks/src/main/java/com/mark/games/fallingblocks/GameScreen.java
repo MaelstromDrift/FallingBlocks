@@ -151,7 +151,6 @@ public class GameScreen extends Screen {
 		
 		//replace the gltext with an image maybe?
 		displayPause();
-		displayGameOver();
 	}
 	
 	public void displayPause() {
@@ -161,15 +160,7 @@ public class GameScreen extends Screen {
 			Assets.gameScreenText.end();
 		}
 	}
-	public void displayGameOver() {
-		if(world.state == GameWorld.GAME_GAMEOVER) {
-			Assets.gameScreenText.begin(0.0f, 0.0f, 0.0f, 1.0f);
-			Assets.gameScreenText.draw("GAME OVER", 140, camera.position.y + 50);
-			Assets.gameScreenText.draw("Play Again", 140, renderer.camera.position.y);
-			Assets.gameScreenText.draw("Main Menu", 140, renderer.camera.position.y - 40);
-			Assets.gameScreenText.end();
-		}
-	}
+
 	
 	@Override
 	public void resume() {
