@@ -18,13 +18,13 @@ public interface Graphics {
     public void drawRect(int x, int y, int width, int height, int color);
 
     public void drawPixmap(Pixmap pixmap, int x, int y, int srcX, int srcY,
-            int srcWidth, int srcHeight);
+                           int srcWidth, int srcHeight);
 
     public void drawPixmap(Pixmap pixmap, int x, int y);
     
     public Typeface newTypeface(String filename);
     
-    public void drawText(String text, int x, int y,float textSize, int color);
+    public void drawText(String text, int x, int y, float textSize, int color);
 
     public int getWidth();
 

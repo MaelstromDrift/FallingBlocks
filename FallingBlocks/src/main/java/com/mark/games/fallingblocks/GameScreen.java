@@ -27,19 +27,12 @@ public class GameScreen extends Screen {
 	FPSCounter fpsCounter;
 	int fps;
 
-	float nextNum;
-	float tempNum;
-
 	Vector2 touchPosition = new Vector2();
-	SpatialHashGrid spatialGrid;
 	SpriteBatcher batcher;
 	GameWorld world;
 	GameRenderer renderer;
 	
 	Rectangle pauseButton;
-	Rectangle resumeButton;
-	Rectangle playAgain;
-	Rectangle menuButton;
 
 	public GameScreen(Game game) {
 		super(game);
@@ -73,30 +66,9 @@ public class GameScreen extends Screen {
 	}
 
 	public void updateGameOver() {
-		playAgain = new Rectangle(140, camera.position.y, 60, 30);
-		menuButton = new Rectangle(140, camera.position.y - 40, 60, 30);
-		
-		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
-		game.getInput().getKeyEvents();
-		
-		int len = touchEvents.size();
-		for (int i = 0; i < len; i++) {
-			TouchEvent event = touchEvents.get(i);
-			touchPosition.set(event.x, event.y);
-			renderer.camera.touchToWorld(touchPosition);
-			if (event.type == TouchEvent.TOUCH_DOWN) {
-				if(OverlapTester.pointInRectangle(playAgain, touchPosition)){
-					Settings.addScore(world.score);
-					Settings.save(game.getFileIO());
-					game.setScreen(new GameScreen(game));
-				}
-				if(OverlapTester.pointInRectangle(menuButton, touchPosition)){
-					Settings.addScore(world.score);
-					Settings.save(game.getFileIO());
-					game.setScreen(new MainMenuScreen(game));
-				}
-			}
-		}
+		game.setScreen(new LossScreen(game));
+        Settings.addScore(world.score);
+        Settings.save(game.getFileIO());
 	}
 	
 	public void updatePaused() {

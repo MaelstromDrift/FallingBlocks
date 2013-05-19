@@ -20,20 +20,11 @@ import com.mark.games.fallingblocks.framework.math.Vector2;
 public class TutorialScreen extends Screen {
 
 	GLGraphics glGraphics;
-
 	Vector2 touchPos;
-
-	static Camera2D camera;
-
+    Camera2D camera;
 	FPSCounter fpsCounter;
 	int fps;
-
-	float starty = 65;
-	float nextNum;
-	float tempNum;
-
 	Vector2 touchPosition = new Vector2();
-	SpatialHashGrid spatialGrid;
 	SpriteBatcher batcher;
 	TutorialWorld world;
 	TutorialRenderer renderer;
@@ -51,14 +42,11 @@ public class TutorialScreen extends Screen {
 				renderer.camera.position.y);
 		fpsCounter = new FPSCounter();
 		touchPos = new Vector2();
-
 	}
 
 	@Override
 	public void update(float deltaTime) {
-
 		updateState(deltaTime);
-
 	}
 
 	public void updateState(float deltaTime) {
@@ -76,9 +64,7 @@ public class TutorialScreen extends Screen {
 	}
 
 	public void updateGameOver() {
-		game.setScreen(new LossScreen(game));
-		Settings.addScore(world.score);
-		Settings.save(game.getFileIO());
+		game.setScreen(new MainMenuScreen(game));
 	}
 
 	public void updatePaused() {
@@ -147,7 +133,6 @@ public class TutorialScreen extends Screen {
 
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		gl.glClearColor(1, 1, 1, 1);
-
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 
 		renderer.render();
@@ -157,18 +142,12 @@ public class TutorialScreen extends Screen {
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
 		drawGUI();
+
 		Assets.gameScreenText.begin(0f, 0f, 0f, 1.0f);
 
 		if (Settings.showFps) {
-			Assets.gameScreenText.draw("FPS: " + Integer.toString(fps), 10,
-					camera.position.y + 215);
-			Assets.gameScreenText.draw(
-					"Score:" + Integer.toString(world.score), 10,
-					camera.position.y + 195);
-		} else
-			Assets.gameScreenText.draw(
-					"Score:" + Integer.toString(world.score), 10,
-					camera.position.y + 215);
+			Assets.gameScreenText.draw("FPS: " + Integer.toString(fps), 10, camera.position.y + 215);
+		}
 		Assets.gameScreenText.end();
 	}
 
@@ -187,7 +166,7 @@ public class TutorialScreen extends Screen {
 
 	@Override
 	public void resume() {
-		Settings.load(((GLGame) game).getFileIO(), ".falling");
+		Settings.load(game.getFileIO(), ".falling");
 	}
 
 	@Override

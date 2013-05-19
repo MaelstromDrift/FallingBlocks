@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.util.Log;
 import com.mark.games.fallingblocks.framework.Game;
+import com.mark.games.fallingblocks.framework.Graphics;
 import com.mark.games.fallingblocks.framework.Input.TouchEvent;
 import com.mark.games.fallingblocks.framework.Screen;
 import com.mark.games.fallingblocks.framework.collision.OverlapTester;
@@ -28,7 +28,6 @@ public class MainMenuScreen extends Screen {
 	Rectangle settingsButtonRect;
 	Rectangle startButtonRect;
 	Rectangle highscoreButtonRect;
-	Rectangle tutorialButtonRect;
 
 	SpriteBatcher batcher;
 
@@ -56,14 +55,6 @@ public class MainMenuScreen extends Screen {
 		// Settings button
 		buttonList.add(new Rectangle(0, 130, 290, 50));
 		settingsButtonRect = buttonList.get(2);
-		// TEMP //Tutorial button
-		buttonList.add(new Rectangle(0, 55, 290, 50));
-		tutorialButtonRect = buttonList.get(3);
-        try{
-            Log.d("music", Boolean.toString(Assets.backgroundSong.isPrepared()));
-        } catch(NullPointerException e) {
-
-        }
 	}
 
 	@Override
@@ -79,18 +70,18 @@ public class MainMenuScreen extends Screen {
 				touchPoint.set(event.x, event.y);
 				camera.touchToWorld(touchPoint);
 				getTouchEvents(event, touchPoint);
-
 			}
 		} catch (IndexOutOfBoundsException e) {
 		}
 	}
 
 	public void getTouchEvents(TouchEvent event, Vector2 touchPoint) {
-		if (event.type == TouchEvent.TOUCH_DOWN) {
+
+		if (event.type == TouchEvent.TOUCH_DOWN || event.type == TouchEvent.TOUCH_DRAGGED) {
 			for (int i = 0; i < buttonList.size(); i++) {
 				if (OverlapTester.pointInRectangle(buttonList.get(i),
 						touchPoint)) {
-					buttonPressed = true;
+                    buttonPressed = true;
 					buttonX = buttonList.get(i).lowerLeft.x
 							+ buttonList.get(i).width / 2;
 					buttonY = buttonList.get(i).lowerLeft.y
@@ -105,7 +96,7 @@ public class MainMenuScreen extends Screen {
 
 			if (buttonPressed) {
 				if (OverlapTester.pointInRectangle(startButtonRect, touchPoint)) {
-					game.setScreen(new GameScreen(game));
+					game.setScreen(new ModeSelectScreen(game));
 				}
 				if (OverlapTester.pointInRectangle(settingsButtonRect,
 						touchPoint)) {
@@ -114,10 +105,6 @@ public class MainMenuScreen extends Screen {
 				if (OverlapTester.pointInRectangle(highscoreButtonRect,
 						touchPoint)) {
 					game.setScreen(new HighscoreScreen(game));
-				}
-				if (OverlapTester.pointInRectangle(tutorialButtonRect,
-						touchPoint)) {
-					game.setScreen(new TutorialScreen(game));
 				}
 			}
 			buttonPressed = false;
@@ -160,7 +147,7 @@ public class MainMenuScreen extends Screen {
 	@Override
 	public void resume() {
 
-   	}
+	}
 
 	@Override
 	public void pause() {

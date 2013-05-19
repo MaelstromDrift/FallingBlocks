@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-
-    <string name="Intro">A Game by Mark Gitthens and Devin Carr</string>
-    <string name="app_name">Falling Blocks</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
+    <string name="app_name">FallingBlocks</string>
 
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--

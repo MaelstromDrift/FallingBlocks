@@ -103,7 +103,7 @@ public class HighscoreScreen extends Screen {
 
 	@Override
 	public void pause() {
-
+		// TODO Auto-generated method stub
 
 	}
 
@@ -115,7 +115,7 @@ public class HighscoreScreen extends Screen {
 
 	@Override
 	public void dispose() {
-
+		// TODO Auto-generated method stub
 
 	}
 

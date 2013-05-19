@@ -10,7 +10,7 @@ import com.mark.games.fallingblocks.framework.impl.GLGame;
 public class Assets {
 	
 	protected static Music backgroundSong;
-
+	
 	public static Texture icons;
 	public static TextureRegion pauseButton;
 
@@ -30,12 +30,18 @@ public class Assets {
 	
 	public static Texture tutorial;
 	public static TextureRegion tutBackground;
-	
+
+    public static Texture lossScreen;
+    public static TextureRegion lossBack;
+
 	public static Texture menu;
 	public static TextureRegion mainBack;
 	public static TextureRegion menuFalling;
 	public static TextureRegion menuBlocks;
-	
+
+    public static Texture selectScreen;
+    public static TextureRegion selectScreenBack;
+
 	public static Texture settings;
 	public static TextureRegion settingsBack;
 	
@@ -46,18 +52,21 @@ public class Assets {
 	public static GLText gameScreenText;
 	
 	public static void load(GLGame game) {
-		mainText = new GLText(game.getGLGraphics().getGL(), game.getApplicationContext().getAssets());
+		mainText = new GLText(((GLGame)game).getGLGraphics().getGL(), ((GLGame)game).getApplicationContext().getAssets());
 		mainText.load("DroidSans.ttf", 24, 5, 5);
 
 		backgroundSong = game.getAudio().newMusic("WCC.ogg");
 		backgroundSong.setLooping(true);
 		if (backgroundSong.isPrepared())
 			backgroundSong.play();
-		
+
+        lossScreen = new Texture(game, "LossScreen.png");
+        lossBack = new TextureRegion(lossScreen, 0, 0, 640, 960);
+
 		highscoreScreen = new Texture(game, "HighScoreScreen.png");
 		highscoreBack = new TextureRegion(highscoreScreen, 0, 0, 640, 960);
 		
-		gameScreenText = new GLText((game).getGLGraphics().getGL(), (game).getApplicationContext().getAssets());
+		gameScreenText = new GLText(((GLGame)game).getGLGraphics().getGL(), ((GLGame)game).getApplicationContext().getAssets());
 		gameScreenText.load("DroidSans.ttf", 20, 0, 1);
 
 		settings = new Texture(game, "SettingsScreen_background_all.png");
@@ -70,6 +79,9 @@ public class Assets {
 		mainBack = new TextureRegion(menu, 0, 0, 640, 960);
 		menuBlocks = new TextureRegion(menu, 640, 660, 200, 100);
 		menuFalling= new TextureRegion(menu, 640, 760, 200, 99);
+
+        selectScreen = new Texture(game,"Play_Screen.png");
+        selectScreenBack = new TextureRegion(selectScreen, 0, 0, 640, 960);
 
 
 		icons = new Texture(game, "pauseButton.png");
@@ -91,9 +103,9 @@ public class Assets {
 	}
 	
 	public static void reload() {
-        floor.reload();
-	    backLavaHigh.reload();
-	    character.reload();
-	    blocks.reload();
+		floor.reload();
+		backLavaHigh.reload();
+		character.reload();
+		blocks.reload();
 	}
 }
