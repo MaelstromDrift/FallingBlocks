@@ -1,5 +1,6 @@
 package com.mark.games.fallingblocks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -20,8 +21,6 @@ import com.mark.games.fallingblocks.framework.math.Vector2;
 public class GameScreen extends Screen {
 	GLGraphics glGraphics;
 
-	Vector2 touchPos;
-
 	static Camera2D camera;
 
 	FPSCounter fpsCounter;
@@ -31,7 +30,14 @@ public class GameScreen extends Screen {
 	SpriteBatcher batcher;
 	GameWorld world;
 	GameRenderer renderer;
-	
+
+    List<Rectangle> buttonList;
+    Rectangle pauseResume;
+    Rectangle pauseQuit;
+
+    boolean buttonPressed;
+    float buttonX, buttonY;
+    float buttonWidth, buttonHeight;
 	Rectangle pauseButton;
 
 	public GameScreen(Game game) {
@@ -43,8 +49,13 @@ public class GameScreen extends Screen {
 		renderer = new GameRenderer(glGraphics, batcher, world);
 		camera = new Camera2D(glGraphics, renderer.camera.position.x, renderer.camera.position.y);
 		fpsCounter = new FPSCounter();
-		touchPos = new Vector2();
-	}
+        buttonList = new ArrayList<Rectangle>();
+
+        buttonList.add(new Rectangle(renderer.camera.position.x - 120 + 3.5f, renderer.camera.position.y - renderer.FRUSTUM_HEIGHT/2 + 32.5f, 233.5f, 50));
+	    pauseResume = buttonList.get(0);
+        buttonList.add(new Rectangle(renderer.camera.position.x - 120 + 3.5f, renderer.camera.position.y - renderer.FRUSTUM_HEIGHT/2 -35, 233.5f, 50));
+        pauseQuit = buttonList.get(1);
+    }
 
 	@Override
 	public void update(float deltaTime) {
@@ -73,7 +84,9 @@ public class GameScreen extends Screen {
 	
 	public void updatePaused() {
 		pauseButton = new Rectangle(renderer.FRUSTUM_WIDTH - 60, camera.position.y + renderer.FRUSTUM_HEIGHT/2-40, 60, 40);
-		
+		pauseResume = new Rectangle(camera.position.x - 120 + 3.5f, camera.position.y + 32.5f, 233.5f, 50);
+        pauseQuit = new Rectangle(camera.position.x - 120 + 3.5f, camera.position.y - 35, 233.5f, 50);
+
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 		
@@ -82,15 +95,16 @@ public class GameScreen extends Screen {
 			TouchEvent event = touchEvents.get(i);
 			touchPosition.set(event.x, event.y);
 			renderer.camera.touchToWorld(touchPosition);
-			if (event.type == TouchEvent.TOUCH_UP) {
-				if(OverlapTester.pointInRectangle(pauseButton, touchPosition)){
-					world.state = GameWorld.GAME_RUNNING;	
-				}
-			}
-		}
-		fps = fpsCounter.getFps();
-	}
-	
+            if (event.type == TouchEvent.TOUCH_UP) {
+                if (OverlapTester.pointInRectangle(pauseResume, touchPosition)) {
+                    world.state = GameWorld.GAME_RUNNING;
+                }
+                if (OverlapTester.pointInRectangle(pauseQuit, touchPosition)) {
+                    game.setScreen(new MainMenuScreen(game));
+                }
+            }
+        }
+    }
 	public void updateRunning(float deltaTime) {
 		world.update(deltaTime,game.getInput().getAccelX());
 		world.checkCollisions(deltaTime);
@@ -154,9 +168,15 @@ public class GameScreen extends Screen {
 	
 	public void displayPause() {
 		if(world.state == GameWorld.GAME_PAUSED) {
-			Assets.gameScreenText.begin(0.0f, 0.0f, 0.0f, 1.0f);
-			Assets.gameScreenText.draw("PAUSED", 140, camera.position.y);
-			Assets.gameScreenText.end();
+
+            //darkening the game screen
+            batcher.beginBatch(Assets.backLavaHigh);
+            batcher.drawSprite(renderer.camera.position.x, camera.position.y, renderer.FRUSTUM_WIDTH, renderer.FRUSTUM_HEIGHT, Assets.highlight);
+            batcher.endBatch();
+            //drawing the pause menu
+            batcher.beginBatch(Assets.pauseMenu);
+            batcher.drawSprite(renderer.camera.position.x, camera.position.y, 240, 360, Assets.pauseRegion);
+            batcher.endBatch();
 		}
 	}
 

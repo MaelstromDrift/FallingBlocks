@@ -1,9 +1,11 @@
 package com.mark.games.fallingblocks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
 import com.mark.games.fallingblocks.framework.Game;
 import com.mark.games.fallingblocks.framework.Input.TouchEvent;
 import com.mark.games.fallingblocks.framework.Screen;
@@ -20,7 +22,6 @@ import com.mark.games.fallingblocks.framework.math.Vector2;
 public class TutorialScreen extends Screen {
 
 	GLGraphics glGraphics;
-	Vector2 touchPos;
     Camera2D camera;
 	FPSCounter fpsCounter;
 	int fps;
@@ -28,6 +29,12 @@ public class TutorialScreen extends Screen {
 	SpriteBatcher batcher;
 	TutorialWorld world;
 	TutorialRenderer renderer;
+
+    boolean buttonPressed;
+
+    List<Rectangle> buttonList;
+    Rectangle pauseResume;
+    Rectangle pauseQuit;
 
 	Rectangle pauseButton;
 
@@ -41,8 +48,14 @@ public class TutorialScreen extends Screen {
 		camera = new Camera2D(glGraphics, renderer.camera.position.x,
 				renderer.camera.position.y);
 		fpsCounter = new FPSCounter();
-		touchPos = new Vector2();
-	}
+
+        buttonList = new ArrayList<Rectangle>();
+
+        buttonList.add(new Rectangle(camera.position.x - 120 + 3.5f, camera.position.y - renderer.FRUSTUM_HEIGHT/2 + 32.5f, 233.5f, 50));
+        pauseResume = buttonList.get(0);
+        buttonList.add(new Rectangle(camera.position.x - 120 + 3.5f, camera.position.y - renderer.FRUSTUM_HEIGHT/2 -35, 233.5f, 50));
+        pauseQuit = buttonList.get(1);
+    }
 
 	@Override
 	public void update(float deltaTime) {
@@ -70,23 +83,27 @@ public class TutorialScreen extends Screen {
 	public void updatePaused() {
 		pauseButton = new Rectangle(renderer.FRUSTUM_WIDTH - 60,
 				camera.position.y + renderer.FRUSTUM_HEIGHT / 2 - 40, 60, 40);
-
+        pauseResume = new Rectangle(camera.position.x - 120 + 3.5f, camera.position.y + 32.5f, 233.5f, 50);
+        pauseQuit = new Rectangle(camera.position.x - 120 + 3.5f, camera.position.y - 35, 233.5f, 50);
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 
 		int len = touchEvents.size();
 		try {
-			for (int i = 0; i < len; i++) {
-				TouchEvent event = touchEvents.get(i);
-				touchPosition.set(event.x, event.y);
-				renderer.camera.touchToWorld(touchPosition);
-				if (event.type == TouchEvent.TOUCH_DOWN) {
-					if (OverlapTester.pointInRectangle(pauseButton,
-							touchPosition)) {
-						world.state = GameWorld.GAME_RUNNING;
-					}
-				}
-			}
+            for (int i = 0; i < len; i++) {
+                TouchEvent event = touchEvents.get(i);
+                touchPosition.set(event.x, event.y);
+                renderer.camera.touchToWorld(touchPosition);
+                if (event.type == TouchEvent.TOUCH_UP) {
+                    if (OverlapTester.pointInRectangle(pauseResume, touchPosition)) {
+                        world.state = GameWorld.GAME_RUNNING;
+                    }
+                    if (OverlapTester.pointInRectangle(pauseQuit, touchPosition)) {
+                        game.setScreen(new MainMenuScreen(game));
+                    }
+                }
+            }
+
 		} catch (IndexOutOfBoundsException e) {
 
 		}
@@ -158,9 +175,15 @@ public class TutorialScreen extends Screen {
 		batcher.endBatch();
 		// replace the gltext with an image maybe?
 		if (world.state == GameWorld.GAME_PAUSED) {
-			Assets.gameScreenText.begin(0.0f, 0.0f, 0.0f, 1.0f);
-			Assets.gameScreenText.draw("PAUSED", 140, camera.position.y);
-			Assets.gameScreenText.end();
+            //darkening the game screen
+            batcher.beginBatch(Assets.backLavaHigh);
+            batcher.drawSprite(renderer.camera.position.x, camera.position.y, renderer.FRUSTUM_WIDTH, renderer.FRUSTUM_HEIGHT, Assets.highlight);
+            batcher.endBatch();
+            //drawing the pause menu
+            batcher.beginBatch(Assets.pauseMenu);
+            batcher.drawSprite(renderer.camera.position.x, camera.position.y, 240, 360, Assets.pauseRegion);
+            batcher.endBatch();
+
 		}
 	}
 

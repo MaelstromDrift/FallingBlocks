@@ -34,6 +34,9 @@ public class Assets {
     public static Texture lossScreen;
     public static TextureRegion lossBack;
 
+    public static Texture pauseMenu;
+    public static TextureRegion pauseRegion;
+
     public static Texture menu;
     public static TextureRegion mainBack;
     public static TextureRegion menuFalling;
@@ -61,6 +64,9 @@ public class Assets {
             backgroundSong.play();
         else
             backgroundSong.pause();
+
+        pauseMenu = new Texture(game, "Pause_Screen.png");
+        pauseRegion = new TextureRegion(pauseMenu, 0, 0, 480, 720);
 
         lossScreen = new Texture(game, "LossScreen.png");
         lossBack = new TextureRegion(lossScreen, 0, 0, 640, 960);
