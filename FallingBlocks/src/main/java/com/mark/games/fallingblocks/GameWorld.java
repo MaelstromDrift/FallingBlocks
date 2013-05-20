@@ -41,12 +41,13 @@ public class GameWorld {
 	}
 
 	public void generateBlocks(int amount) {
-		for (int i = 0; i < amount; i++) {
+        blocks.add(new Block((ran.nextFloat() * 165), 50, 100, 100));
+
+		for (int i = 1; i < amount; i++) {
 			blocks.add(new Block((ran.nextFloat() * 165), starty, 100, 100));
 			blocks.get(i).velocity.y = -180;
 			starty += 300;
 			blocks.get(i).position.x = 70 + ran.nextFloat() * 180;
-			grid.insertDynamicObject(blocks.get(i));
 		}
 	}
 

@@ -30,8 +30,6 @@ public class TutorialScreen extends Screen {
 	TutorialWorld world;
 	TutorialRenderer renderer;
 
-    boolean buttonPressed;
-
     List<Rectangle> buttonList;
     Rectangle pauseResume;
     Rectangle pauseQuit;
