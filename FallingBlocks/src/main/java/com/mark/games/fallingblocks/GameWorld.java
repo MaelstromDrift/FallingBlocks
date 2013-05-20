@@ -34,7 +34,7 @@ public class GameWorld {
 		
 		ran = new Random();
 		lava = new Lava(160, -300, 320, 300);
-		character = new SquareMan(160, 32, 32, 50);
+		character = new SquareMan(160, 25, 32, 50);
 		blocks = new ArrayList<Block>();
 		state = GAME_RUNNING;
 		generateBlocks(20);

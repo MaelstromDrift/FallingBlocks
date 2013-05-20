@@ -82,7 +82,7 @@ public class GameScreen extends Screen {
 			TouchEvent event = touchEvents.get(i);
 			touchPosition.set(event.x, event.y);
 			renderer.camera.touchToWorld(touchPosition);
-			if (event.type == TouchEvent.TOUCH_DOWN) {
+			if (event.type == TouchEvent.TOUCH_UP) {
 				if(OverlapTester.pointInRectangle(pauseButton, touchPosition)){
 					world.state = GameWorld.GAME_RUNNING;	
 				}
@@ -105,14 +105,13 @@ public class GameScreen extends Screen {
 			TouchEvent event = touchEvents.get(i);
 			touchPosition.set(event.x, event.y);
 			renderer.camera.touchToWorld(touchPosition);
-			if (event.type == TouchEvent.TOUCH_DOWN) {
-				world.character.jump();
-			}
-			if (event.type == TouchEvent.TOUCH_UP) {
-				if(OverlapTester.pointInRectangle(pauseButton, touchPosition)){
+            if(OverlapTester.pointInRectangle(pauseButton, touchPosition)){
+			    if (event.type == TouchEvent.TOUCH_UP) {
 					world.state = GameWorld.GAME_PAUSED;					
 				}	
-			}
+			} else if (event.type == TouchEvent.TOUCH_DOWN) {
+                world.character.jump();
+            }
 		}
 		fps = fpsCounter.getFps();
 	}

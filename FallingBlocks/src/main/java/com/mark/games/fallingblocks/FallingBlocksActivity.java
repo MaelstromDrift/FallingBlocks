@@ -28,6 +28,6 @@ public class FallingBlocksActivity extends GLGame {
     @Override
     public void onPause() {
         super.onPause();
-
+        Assets.backgroundSong.pause();
     }
 }
